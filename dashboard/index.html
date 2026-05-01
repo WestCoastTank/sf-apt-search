@@ -4,36 +4,29 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SF 2BR+ — Apartment Dashboard</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin="" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- ============================================================
-     TOP BAR
-     ============================================================ -->
+<!-- TOP BAR -->
 <header class="topbar">
   <div class="brand">SF<span class="accent">·</span>2BR+</div>
 
   <div class="summary">
-    <div class="stat" title="Total active listings"><span class="num" id="stat-active">—</span> <span>active</span></div>
-    <div class="stat" title="New since last refresh"><span class="num new" id="stat-new">—</span> <span>new</span></div>
-    <div class="stat" title="Excluded by hard requirements"><span class="num bad" id="stat-excluded">—</span> <span>excluded</span></div>
-    <div class="stat" title="Previously seen, no longer listed"><span class="num" id="stat-inactive">—</span> <span>inactive</span></div>
+    <div class="stat" title="Total active listings"><span class="num" id="stat-active">—</span><span class="lbl">active</span></div>
+    <div class="stat" title="New since last refresh"><span class="num new" id="stat-new">—</span><span class="lbl">new</span></div>
+    <div class="stat" title="Excluded by hard requirements"><span class="num bad" id="stat-excluded">—</span><span class="lbl">excluded</span></div>
   </div>
 
   <div class="spacer"></div>
 
   <div class="last-refresh" id="last-refresh">last refresh: —</div>
-  <button id="refresh-btn" title="Show the command to refresh the data">⟲ Refresh</button>
-  <button id="theme-btn" title="Toggle dark/light">◐</button>
+  <button class="topbar-btn" id="weights-toggle-btn" title="Score weights">⚖ Weights</button>
+  <button class="topbar-btn" id="refresh-btn" title="Refresh listings">⟲ Refresh</button>
+  <button class="topbar-btn" id="theme-btn" title="Toggle dark/light">◐</button>
 </header>
 
-<!-- ============================================================
-     TABS
-     ============================================================ -->
+<!-- TABS -->
 <div class="tabs" id="tabs">
   <div class="tab active" data-tab="active">Active <span class="count" id="tab-active-count">0</span></div>
   <div class="tab" data-tab="adjacent">Adjacent <span class="count" id="tab-adjacent-count">0</span></div>
@@ -42,9 +35,7 @@
   <div class="tab" data-tab="log">Refresh log</div>
 </div>
 
-<!-- ============================================================
-     FILTER BAR
-     ============================================================ -->
+<!-- FILTER BAR -->
 <div class="filterbar" id="filterbar">
   <div class="filter">
     <label>Search</label>
@@ -81,86 +72,74 @@
   <label class="toggle"><input type="checkbox" id="f-hide-hidden" checked /> Hide hidden</label>
 </div>
 
-<!-- ============================================================
-     MAIN
-     ============================================================ -->
+<!-- MAIN -->
 <div class="main">
-  <!-- LEFT: table or log -->
-  <div class="left-pane">
+  <div class="content-pane">
     <div class="table-wrap" id="table-wrap">
       <table class="listings" id="listings-table">
-        <thead>
-          <tr id="th-row"></tr>
-        </thead>
+        <thead><tr id="th-row"></tr></thead>
         <tbody id="listings-body"></tbody>
       </table>
       <div class="empty" id="empty-msg" style="display:none;">
         <div class="em">⌂</div>
-        <div>No listings match your filters.</div>
+        <div class="empty-heading">No listings match your filters</div>
         <div class="faint">Try widening price, bedrooms, or selecting more neighborhoods.</div>
       </div>
     </div>
     <div class="refresh-log" id="refresh-log-pane" style="display:none;"></div>
   </div>
 
-  <!-- RIGHT: map + weights panel -->
-  <div class="right-pane">
-    <div id="map"></div>
-
-    <div class="weights-panel" id="weights-panel">
-      <h4>
-        <span>Score weights</span>
-        <span class="reset" id="weights-reset">reset</span>
-      </h4>
-      <div id="weights-sliders"></div>
+  <!-- Detail panel slides in from right -->
+  <aside class="detail-panel" id="detail-panel">
+    <div class="gallery" id="d-gallery"></div>
+    <div class="head">
+      <div>
+        <h3 class="title" id="d-title">—</h3>
+        <div class="sub" id="d-sub">—</div>
+      </div>
+      <button class="close-btn" id="d-close">×</button>
     </div>
+    <div class="body" id="d-body"></div>
+    <div class="actions">
+      <button id="d-star">☆ Star</button>
+      <select id="d-status" class="status-select">
+        <option value="">Stage…</option>
+        <option value="interested">★ Interested</option>
+        <option value="toured">👁 Toured</option>
+        <option value="applied">✓ Applied</option>
+        <option value="passed">⊘ Passed</option>
+      </select>
+      <button id="d-hide">⊘ Hide</button>
+    </div>
+  </aside>
 
-    <!-- Detail panel slides over the map -->
-    <aside class="detail-panel" id="detail-panel">
-      <div class="gallery" id="d-gallery"></div>
-      <div class="head">
-        <div>
-          <h3 class="title" id="d-title">—</h3>
-          <div class="sub" id="d-sub">—</div>
-        </div>
-        <button class="close-btn" id="d-close">×</button>
-      </div>
-      <div class="body" id="d-body"></div>
-      <div class="actions">
-        <button id="d-star">☆ Star</button>
-        <select id="d-status" class="status-select">
-          <option value="">Stage…</option>
-          <option value="interested">★ Interested</option>
-          <option value="toured">👁 Toured</option>
-          <option value="applied">✓ Applied</option>
-          <option value="passed">⊘ Passed</option>
-        </select>
-        <button id="d-hide">⊘ Hide</button>
-      </div>
-    </aside>
-  </div>
+  <!-- Weights popover (hidden by default, toggled by topbar button) -->
+  <aside class="weights-panel" id="weights-panel">
+    <h4>
+      <span>Score weights</span>
+      <span class="reset" id="weights-reset">reset</span>
+    </h4>
+    <div id="weights-sliders"></div>
+  </aside>
 </div>
 
-<!-- ============================================================
-     REFRESH COMMAND MODAL
-     ============================================================ -->
+<!-- REFRESH MODAL (fallback) -->
 <div class="modal-backdrop" id="refresh-modal">
   <div class="modal">
     <h3>Refresh the data</h3>
-    <p>The dashboard is static — it can't pull data on its own. Run this from the project directory:</p>
+    <p>To pull fresh listings, open Cowork and message Claude: <em>"refresh my listings."</em> The dashboard updates within ~2 minutes.</p>
+    <p class="dim">Or run locally:</p>
     <pre id="refresh-cmd">cd ~/Documents/sf-apartment-search
-python refresh.py</pre>
-    <p class="dim">Then reload this page (⌘R).</p>
+python3 refresh.py --publish</pre>
     <div class="modal-actions">
       <button id="refresh-modal-close">Close</button>
     </div>
   </div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin=""></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- A leaflet map div is no longer here — the per-listing Google Maps embed in
+     the detail panel is the spatial-context view. -->
+
 <script src="app.js"></script>
 </body>
 </html>

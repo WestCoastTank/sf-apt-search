@@ -383,6 +383,9 @@ function initMap() {
 }
 
 function renderMap() {
+  // The main map is gone — per-listing Google Maps embed in the detail panel
+  // handles spatial context. Keep this no-op so other render() callers don't break.
+  if (!state.map) return;
   // Clear old markers
   for (const id in state.markers) {
     state.map.removeLayer(state.markers[id]);
@@ -792,10 +795,25 @@ async function init() {
     return;
   }
 
-  // Build UI shell
-  initMap();
+  // Build UI shell — no map anymore (per-listing Google Maps embed handles spatial)
   buildNeighborhoodPicker();
   buildWeightsPanel();
+  // Wire weights toggle button
+  const wtBtn = document.getElementById("weights-toggle-btn");
+  const wtPanel = document.getElementById("weights-panel");
+  if (wtBtn && wtPanel) {
+    wtBtn.onclick = (e) => {
+      e.stopPropagation();
+      const open = wtPanel.classList.toggle("open");
+      wtBtn.classList.toggle("active", open);
+    };
+    document.addEventListener("click", (e) => {
+      if (!wtPanel.contains(e.target) && !wtBtn.contains(e.target)) {
+        wtPanel.classList.remove("open");
+        wtBtn.classList.remove("active");
+      }
+    });
+  }
 
   // Wire filters
   const f = state.filters;
