@@ -1,0 +1,16 @@
+{
+  "source": "padmapper",
+  "pulled_at": "2026-04-30T03:58:18Z",
+  "search_url": "https://www.padmapper.com/apartments/san-francisco-ca/castro?min-bedrooms=2&max-price=6500",
+  "raw_card_count": 5,
+  "filtered_unit_count": 0,
+  "notes": "Padmapper's search-results page only surfaces building addresses + nbhd labels, not unit-level price / photos / amenities. Each promising building needs an individual detail-page fetch. Recommend doing per-neighborhood rounds (Castro, Mission, Hayes Valley, etc.) and only fetching detail pages for buildings whose name/address looks like an individual flat (i.e. '<number> <street>' rather than 'Brand Apartments'). Skipped this round to keep request volume polite. Will add detail-page fetcher in a follow-up iteration.",
+  "buildings_seen": [
+    {"address": "2775 Market St, San Francisco, CA 94114", "neighborhood_label": "Castro", "href": "https://www.padmapper.com/buildings/p195281/apartments-at-2775-market-st-san-francisco-ca-94114"},
+    {"address": "2385 Folsom St, San Francisco, CA 94110", "neighborhood_label": "Mission", "href": "https://www.padmapper.com/buildings/p128593/apartments-at-2385-folsom-st-san-francisco-ca-94110"},
+    {"address": "181 Bartlett St, San Francisco, CA 94110", "neighborhood_label": "Mission", "href": "https://www.padmapper.com/buildings/p320706/apartments-at-181-bartlett-st-san-francisco-ca-94110"},
+    {"address": "400 Duboce Ave, San Francisco, CA 94117", "neighborhood_label": "Lower Haight", "href": "https://www.padmapper.com/buildings/p58977/apartments-at-400-duboce-ave-san-francisco-ca-94117"},
+    {"address": "1077 Ashbury St, San Francisco, CA 94117", "neighborhood_label": "Buena Vista/Ashbury Heights", "href": "https://www.padmapper.com/buildings/p1141057/apartments-at-1077-ashbury-st-san-francisco-ca-94117"}
+  ],
+  "listings": []
+}

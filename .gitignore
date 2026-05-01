@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Caches that don't need to be public
+data/llm_cache.json
+data/detail_cache.json
+data/geocode_cache.json
+
+# OS noise
+.DS_Store
+*.swp
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+/tmp/

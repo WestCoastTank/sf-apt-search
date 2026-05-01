@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Auto-refresh sf-apartment-search every hour with macOS notifications.
+
+  Install:
+      cp com.bobby.sf-apt-search.plist ~/Library/LaunchAgents/
+      launchctl load ~/Library/LaunchAgents/com.bobby.sf-apt-search.plist
+
+  Uninstall:
+      launchctl unload ~/Library/LaunchAgents/com.bobby.sf-apt-search.plist
+      rm ~/Library/LaunchAgents/com.bobby.sf-apt-search.plist
+
+  See logs:
+      tail -f /tmp/sf-apt-search.log
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.bobby.sf-apt-search</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/robertschimm/Documents/sf-apartment-search/refresh.py</string>
+        <string>--notify</string>
+        <string>--no-detail</string>
+        <string>--publish</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/robertschimm/Documents/sf-apartment-search</string>
+
+    <key>StartInterval</key>
+    <integer>900</integer>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/sf-apt-search.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/sf-apt-search.log</string>
+</dict>
+</plist>
