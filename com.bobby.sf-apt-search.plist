@@ -25,8 +25,18 @@
         <string>/Users/robertschimm/Documents/sf-apartment-search/refresh.py</string>
         <string>--notify</string>
         <string>--no-detail</string>
+        <string>--llm</string>
         <string>--publish</string>
     </array>
+
+    <!-- Claude API key — needed for the LLM enrichment pass.
+         Generate one at https://console.anthropic.com → API Keys.
+         Replace REPLACE_ME below with your actual key. -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>ANTHROPIC_API_KEY</key>
+        <string>REPLACE_ME</string>
+    </dict>
 
     <key>WorkingDirectory</key>
     <string>/Users/robertschimm/Documents/sf-apartment-search</string>

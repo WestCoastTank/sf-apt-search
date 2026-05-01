@@ -16,24 +16,55 @@ const NEIGHBORHOODS = [
 ];
 
 const DEFAULT_WEIGHTS = {
-  price: 20,
-  neighborhood: 15,
-  top_floor: 10,
-  outdoor: 10,
-  dog: 8,
-  quiet_street: 7,
-  rent_control: 10,
+  price:        10,
+  classic_sf:   15,
+  rent_control: 15,
+  top_floor:    12,
+  laundry:      10,
+  parking:      10,
+  quiet_street: 10,
+  transit:       8,
+  outdoor:      10,
 };
 
 const WEIGHT_LABELS = {
-  price: "Price fit",
-  neighborhood: "Neighborhood",
-  top_floor: "Top floor",
-  outdoor: "Outdoor space",
-  dog: "Dog-friendly",
+  price:        "Price fit",
+  classic_sf:   "Classic SF",
+  rent_control: "Rent-controlled",
+  top_floor:    "Top floor",
+  laundry:      "Laundry (in-unit)",
+  parking:      "Parking (garage)",
   quiet_street: "Quiet side street",
-  rent_control: "Likely RC",
+  transit:      "Transit access",
+  outdoor:      "Outdoor space",
 };
+
+const TRANSIT_STATIONS = [
+  [37.7615, -122.4350], // Castro Muni
+  [37.7666, -122.4287], // Church
+  [37.7651, -122.4196], // 16th BART
+  [37.7522, -122.4188], // 24th BART
+  [37.7752, -122.4188], // Van Ness
+  [37.7795, -122.4140], // Civic Center
+  [37.7843, -122.4080], // Powell
+  [37.7470, -122.4600], // Forest Hill
+  [37.7335, -122.4341], // Glen Park
+];
+
+const CLASSIC_SF_RE = /\b(edwardian|victorian|pre[\s-]war|1900s|1910s|1920s|vintage|classic\s+sf|sfh|single[\s-]family|townhouse|flat|bay\s+window|hardwood\s+floors?)\b/i;
+const NEW_BUILD_VETO_RE = /\b(adu|new\s+construction|newly[\s-]built|brand[\s-]new|new\s+adu|recently[\s-]built|2020|2021|2022|2023|2024|2025)\b/i;
+
+function nearestTransitMi(lat, lng) {
+  if (lat == null || lng == null) return null;
+  let best = Infinity;
+  for (const [slat, slng] of TRANSIT_STATIONS) {
+    const dx = (lng - slng) * 54.6;
+    const dy = (lat - slat) * 69;
+    const d = Math.sqrt(dx*dx + dy*dy);
+    if (d < best) best = d;
+  }
+  return best;
+}
 
 const COLUMNS = [
   { key: "thumb",        label: "",       sort: null },
@@ -150,44 +181,61 @@ function savePrefs() {
 
 // ---------- Scoring ----------
 
+function classicSfScore(L, weight) {
+  const text = (L.title || "") + " " + (L.description_snippet || "");
+  if (NEW_BUILD_VETO_RE.test(text)) return 0;
+  if (L.year_built && L.year_built >= 1979) return 0;
+  if (CLASSIC_SF_RE.test(text)) return weight;
+  if (L.year_built && L.year_built < 1940) return weight * 0.9;
+  if (L.year_built && L.year_built < 1979) return weight * 0.5;
+  return 0;
+}
+
 function scoreListing(L, w) {
-  // Each component is normalized to its weight.
-  const breakdown = {};
+  const b = {};
+  // Price
+  if (L.price <= 4000) b.price = w.price;
+  else if (L.price >= 6500) b.price = 0;
+  else b.price = ((6500 - L.price) / 2500) * w.price;
 
-  // Price: linear from 6500 (=0) to 4000 or below (=full weight)
-  if (L.price <= 4000) breakdown.price = w.price;
-  else if (L.price >= 6500) breakdown.price = 0;
-  else breakdown.price = ((6500 - L.price) / 2500) * w.price;
+  // Classic SF (Victorian/Edwardian/SFH)
+  b.classic_sf = classicSfScore(L, w.classic_sf);
 
-  // Neighborhood: full credit if in our 8 (which it should be — we filter elsewhere)
-  breakdown.neighborhood = NEIGHBORHOODS.includes(L.neighborhood) ? w.neighborhood : 0;
-
-  // Top floor: 100% confirmed, 50% ambiguous, 0 confirmed not
-  if (L.top_floor === true)       breakdown.top_floor = w.top_floor;
-  else if (L.top_floor === false) breakdown.top_floor = 0;
-  else                            breakdown.top_floor = w.top_floor * 0.5;
-
-  // Outdoor space: confirmed only
-  breakdown.outdoor = L.outdoor_space === true ? w.outdoor : 0;
-
-  // Dog: 100% dog_ok, 50% unstated, 0 no_pets/cats_only
-  if (L.pet_policy === "dog_ok")        breakdown.dog = w.dog;
-  else if (L.pet_policy === "unstated") breakdown.dog = w.dog * 0.5;
-  else                                  breakdown.dog = 0;
-
-  // Quiet side street: 100% confirmed, ~43% uncertain, 0 on corridor
-  if (L.side_street === true)       breakdown.quiet_street = w.quiet_street;
-  else if (L.side_street === false) breakdown.quiet_street = 0;
-  else                              breakdown.quiet_street = w.quiet_street * 0.43;
-
-  // Rent control: scaled by likely_rent_controlled_score (0/5/10) → 0/50/100% of weight
+  // Rent-controlled
   const rc = L.likely_rent_controlled_score;
-  if (rc === 10)     breakdown.rent_control = w.rent_control;
-  else if (rc === 5) breakdown.rent_control = w.rent_control * 0.5;
-  else               breakdown.rent_control = 0;
+  b.rent_control = rc === 10 ? w.rent_control : rc === 5 ? w.rent_control * 0.5 : 0;
 
-  const total = Object.values(breakdown).reduce((s, v) => s + v, 0);
-  return { score: Math.round(total * 10) / 10, breakdown };
+  // Top floor
+  b.top_floor = L.top_floor === true ? w.top_floor : L.top_floor === false ? 0 : w.top_floor * 0.4;
+
+  // Laundry (in-unit wins)
+  if (L.laundry === "in_unit")          b.laundry = w.laundry;
+  else if (L.laundry === "in_building") b.laundry = w.laundry * 0.5;
+  else if (L.laundry == null)           b.laundry = w.laundry * 0.4;
+  else                                  b.laundry = 0;
+
+  // Parking (garage/deeded ideal)
+  if (L.parking === "garage" || L.parking === "deeded") b.parking = w.parking;
+  else if (L.parking === "driveway")                    b.parking = w.parking * 0.7;
+  else if (L.parking == null)                           b.parking = w.parking * 0.4;
+  else                                                  b.parking = 0;
+
+  // Quiet side street
+  b.quiet_street = L.side_street === true ? w.quiet_street : L.side_street === false ? 0 : w.quiet_street * 0.4;
+
+  // Transit
+  const tm = nearestTransitMi(L.lat, L.lng);
+  if (tm == null)        b.transit = w.transit * 0.4;
+  else if (tm <= 0.3)    b.transit = w.transit;
+  else if (tm <= 0.5)    b.transit = w.transit * 0.7;
+  else if (tm <= 0.8)    b.transit = w.transit * 0.4;
+  else                   b.transit = 0;
+
+  // Outdoor
+  b.outdoor = L.outdoor_space === true ? w.outdoor : 0;
+
+  const total = Object.values(b).reduce((s, v) => s + v, 0);
+  return { score: Math.round(total * 10) / 10, breakdown: b };
 }
 
 function applyScores() {

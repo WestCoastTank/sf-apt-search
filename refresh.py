@@ -72,6 +72,46 @@ NEIGHBORHOOD_BOXES: list[tuple[str, list[tuple[float, float, float, float]]]] = 
 
 ALLOWED_NEIGHBORHOODS = {n for n, _ in NEIGHBORHOOD_BOXES}
 
+# Geographic inclusion: any listing within 1.5 miles of 94114 (Castro centroid)
+# is considered in-area. Listings still get a specific neighborhood label
+# (Castro, Mission, etc.) for display, but the in-area test uses radius.
+TARGET_CENTROID = (37.7615, -122.4350)  # 94114
+MAX_RADIUS_MILES = 1.75
+
+# Major BART/Muni stations near 94114 — used for transit_score
+TRANSIT_STATIONS = [
+    ("Castro Muni",       37.7615, -122.4350),
+    ("Church St Muni",    37.7666, -122.4287),
+    ("16th St Mission BART", 37.7651, -122.4196),
+    ("24th St Mission BART", 37.7522, -122.4188),
+    ("Van Ness Muni",     37.7752, -122.4188),
+    ("Civic Center BART", 37.7795, -122.4140),
+    ("Powell BART",       37.7843, -122.4080),
+    ("Forest Hill Muni",  37.7470, -122.4600),
+    ("Glen Park BART",    37.7335, -122.4341),
+]
+
+def miles_between(lat1, lng1, lat2, lng2):
+    dx = (lng1 - lng2) * 54.6
+    dy = (lat1 - lat2) * 69
+    return (dx * dx + dy * dy) ** 0.5
+
+def nearest_transit_miles(lat, lng):
+    if lat is None or lng is None: return None
+    return min(miles_between(lat, lng, slat, slng) for _, slat, slng in TRANSIT_STATIONS)
+
+def miles_from_target(lat, lng):
+    """Approximate distance in miles at SF latitude (1° lat ≈ 69mi, 1° lng ≈ 54.6mi)."""
+    if lat is None or lng is None:
+        return None
+    dx = (lng - TARGET_CENTROID[1]) * 54.6
+    dy = (lat - TARGET_CENTROID[0]) * 69
+    return (dx * dx + dy * dy) ** 0.5
+
+def is_within_radius(lat, lng, miles=MAX_RADIUS_MILES):
+    d = miles_from_target(lat, lng)
+    return d is not None and d <= miles
+
 # Adjacent neighborhoods — within ~5 blocks of the 8 targets. Listings here go
 # to a separate "Adjacent" tab rather than being silently dropped.
 ADJACENT_BOXES: list[tuple[str, list[tuple[float, float, float, float]]]] = [
@@ -95,8 +135,17 @@ MAIN_CORRIDORS = {
 }
 
 DEFAULT_WEIGHTS = {
-    "price": 20, "neighborhood": 15, "top_floor": 10, "outdoor": 10,
-    "dog": 8, "quiet_street": 7, "rent_control": 10,
+    # Bobby's dream: classic Victorian/Edwardian SFH, top floor, RC,
+    # in-unit laundry, garage parking, side street near corridor, transit, outdoor.
+    "price":        10,  # under cap good, way-under cap better
+    "classic_sf":   15,  # Victorian/Edwardian/pre-war/SFH
+    "rent_control": 15,
+    "top_floor":    12,
+    "laundry":      10,  # in_unit > in_building > none
+    "parking":      10,  # garage/deeded > driveway > none
+    "quiet_street":  10, # side street near a main corridor
+    "transit":       8,  # distance to BART/Muni
+    "outdoor":      10,
 }
 
 # Source precedence for cross-posted dedup
@@ -321,11 +370,20 @@ def check_hard_requirements(L: dict) -> tuple[bool, str | None]:
     if L.get("price", 0) > 6500:
         return False, f"Price ${L['price']} > $6500"
     nh = L.get("neighborhood")
-    if nh in ADJACENT_NEIGHBORHOODS:
-        # Falls into Adjacent tab — soft pass.
+    # Use radius-based geo filter (1.5mi of 94114) as the primary inclusion check.
+    lat, lng = L.get("lat"), L.get("lng")
+    miles = miles_from_target(lat, lng)
+    if miles is None:
+        # No coords — fall back to polygon-classified nbhd
+        if nh in ADJACENT_NEIGHBORHOODS:
+            return False, f"__adjacent__:{nh}"
+        if nh not in ALLOWED_NEIGHBORHOODS:
+            return False, f"Outside target area (no coords, nbhd={nh!r})"
+    elif miles > MAX_RADIUS_MILES:
+        return False, f"{miles:.1f}mi from 94114 (>{MAX_RADIUS_MILES}mi)"
+    # In-radius and has coords — still respect adjacency labels for the tab.
+    elif nh in ADJACENT_NEIGHBORHOODS:
         return False, f"__adjacent__:{nh}"
-    if nh not in ALLOWED_NEIGHBORHOODS:
-        return False, f"Outside target neighborhoods ({nh!r})"
     laundry = L.get("laundry")
     if laundry == "none":
         return False, "No laundry in unit or building (laundromat-only)"
@@ -366,21 +424,83 @@ def infer_rc(L: dict) -> tuple[int, str]:
 # Scoring (mirror of dashboard JS)
 # ----------------------------------------------------------------------------
 
+CLASSIC_SF_RE = re.compile(r"\b(edwardian|victorian|pre[\s-]war|1900s|1910s|1920s|vintage|classic\s+sf|sfh|single[\s-]family|townhouse|flat|bay\s+window|hardwood\s+floors?)\b", re.I)
+NEW_BUILD_VETO_RE = re.compile(r"\b(adu|new\s+construction|newly[\s-]built|brand[\s-]new|new\s+adu|recently[\s-]built|2020|2021|2022|2023|2024|2025)\b", re.I)
+
+def classic_sf_score(L: dict, weight: int) -> float:
+    """High if listing reads like a classic SF Victorian/Edwardian flat or SFH.
+    Veto if there's any signal of new construction (ADU, etc)."""
+    text = (L.get("title") or "") + " " + (L.get("description_snippet") or "")
+    yr = L.get("year_built")
+    # Hard veto on new construction signals — overrides any classic match
+    if NEW_BUILD_VETO_RE.search(text):
+        return 0
+    if yr and yr >= 1979:
+        return 0
+    if CLASSIC_SF_RE.search(text):
+        return weight
+    if yr and yr < 1940:
+        return weight * 0.9
+    if yr and yr < 1979:
+        return weight * 0.5
+    return 0
+
 def score_listing(L: dict, w: dict[str, int] = DEFAULT_WEIGHTS) -> tuple[float, dict]:
     b = {}
+    # Price fit — linear from $4k (full) to $6.5k (zero)
     if L["price"] <= 4000: b["price"] = w["price"]
     elif L["price"] >= 6500: b["price"] = 0
     else: b["price"] = ((6500 - L["price"]) / 2500) * w["price"]
-    b["neighborhood"] = w["neighborhood"] if L.get("neighborhood") in ALLOWED_NEIGHBORHOODS else 0
-    tf = L.get("top_floor")
-    b["top_floor"] = w["top_floor"] if tf is True else 0 if tf is False else w["top_floor"] * 0.5
-    b["outdoor"] = w["outdoor"] if L.get("outdoor_space") is True else 0
-    pet = L.get("pet_policy")
-    b["dog"] = w["dog"] if pet == "dog_ok" else w["dog"] * 0.5 if pet == "unstated" else 0
-    ss = L.get("side_street")
-    b["quiet_street"] = w["quiet_street"] if ss is True else 0 if ss is False else w["quiet_street"] * 0.43
+
+    # Classic SF architecture
+    b["classic_sf"] = classic_sf_score(L, w["classic_sf"])
+
+    # Rent-controlled
     rc = L.get("likely_rent_controlled_score") or 0
     b["rent_control"] = w["rent_control"] if rc == 10 else w["rent_control"] * 0.5 if rc == 5 else 0
+
+    # Top floor — strong boost when confirmed
+    tf = L.get("top_floor")
+    b["top_floor"] = w["top_floor"] if tf is True else 0 if tf is False else w["top_floor"] * 0.4
+
+    # Laundry: in-unit wins
+    laundry = L.get("laundry")
+    b["laundry"] = (
+        w["laundry"] if laundry == "in_unit"
+        else w["laundry"] * 0.5 if laundry == "in_building"
+        else w["laundry"] * 0.4 if laundry is None
+        else 0
+    )
+
+    # Parking: garage/deeded ideal
+    parking = L.get("parking")
+    b["parking"] = (
+        w["parking"] if parking in ("garage", "deeded")
+        else w["parking"] * 0.7 if parking == "driveway"
+        else w["parking"] * 0.4 if parking is None
+        else 0
+    )
+
+    # Quiet side street near a corridor
+    ss = L.get("side_street")
+    b["quiet_street"] = w["quiet_street"] if ss is True else 0 if ss is False else w["quiet_street"] * 0.4
+
+    # Transit access — distance to nearest BART/Muni
+    transit_miles = nearest_transit_miles(L.get("lat"), L.get("lng"))
+    if transit_miles is None:
+        b["transit"] = w["transit"] * 0.4
+    elif transit_miles <= 0.3:
+        b["transit"] = w["transit"]
+    elif transit_miles <= 0.5:
+        b["transit"] = w["transit"] * 0.7
+    elif transit_miles <= 0.8:
+        b["transit"] = w["transit"] * 0.4
+    else:
+        b["transit"] = 0
+
+    # Outdoor space
+    b["outdoor"] = w["outdoor"] if L.get("outdoor_space") is True else 0
+
     return round(sum(b.values()), 1), b
 
 # ----------------------------------------------------------------------------
@@ -394,7 +514,7 @@ CL_PARAMS_BASE = {
     "availabilityMode": "0",
     "format": "rss",
 }
-CL_MAX_PAGES = 4         # 4 × 25 = 100 results max
+CL_MAX_PAGES = 8         # 8 × 25 = 200 results max
 CL_PAGE_SIZE = 25
 
 # Title format: "$5500 / 2br - 1080ft2 - Sunny 2BR/2BA in Cole Valley w/ garage (cole valley)"
