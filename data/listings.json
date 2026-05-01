@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "last_refresh": "2026-05-01T21:03:05Z",
-  "previous_refresh": "2026-05-01T20:59:50Z",
+  "last_refresh": "2026-05-01T21:04:19Z",
+  "previous_refresh": "2026-05-01T21:03:05Z",
   "listings": [
     {
       "id": "zw-2084528861",
@@ -2123,9 +2123,9 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-04-30T04:25:41Z",
-      "times_seen": 6,
+      "times_seen": 7,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2287,9 +2287,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-04-30T04:42:53Z",
-      "times_seen": 7,
+      "times_seen": 8,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2343,9 +2343,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-04-30T04:42:53Z",
-      "times_seen": 7,
+      "times_seen": 8,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2399,9 +2399,9 @@
         "quiet_street": 0,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-04-30T04:42:53Z",
-      "times_seen": 7,
+      "times_seen": 8,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2457,9 +2457,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2515,9 +2515,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2573,9 +2573,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2631,9 +2631,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2689,9 +2689,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2747,9 +2747,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2805,9 +2805,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2861,9 +2861,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2917,9 +2917,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -2973,9 +2973,9 @@
         "quiet_street": 0,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -3029,9 +3029,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -3085,9 +3085,9 @@
         "quiet_street": 0,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -3141,9 +3141,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -3197,9 +3197,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -3253,9 +3253,9 @@
         "quiet_street": 0,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -3309,9 +3309,9 @@
         "quiet_street": 7,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T18:16:15Z",
-      "times_seen": 4,
+      "times_seen": 5,
       "is_new_since_last_refresh": false,
       "price_history": [
         {
@@ -3363,17 +3363,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 4000
         }
       ],
-      "previous_price": null,
+      "previous_price": 4000,
       "below_market_pct": null,
       "is_hidden_gem": false
     },
@@ -3417,17 +3417,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 6195
         }
       ],
-      "previous_price": null,
+      "previous_price": 6195,
       "below_market_pct": 1.9,
       "is_hidden_gem": false
     },
@@ -3473,17 +3473,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 4999
         }
       ],
-      "previous_price": null,
+      "previous_price": 4999,
       "below_market_pct": -5.4,
       "is_hidden_gem": false
     },
@@ -3529,17 +3529,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 6195
         }
       ],
-      "previous_price": null,
+      "previous_price": 6195,
       "below_market_pct": null,
       "is_hidden_gem": false
     },
@@ -3585,17 +3585,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 4091
         }
       ],
-      "previous_price": null,
+      "previous_price": 4091,
       "below_market_pct": 3.3,
       "is_hidden_gem": false
     },
@@ -3639,17 +3639,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 4250
         }
       ],
-      "previous_price": null,
+      "previous_price": 4250,
       "pet_policy": "no_pets",
       "dog_friendly": false,
       "below_market_pct": null,
@@ -3695,17 +3695,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 5450
         }
       ],
-      "previous_price": null,
+      "previous_price": 5450,
       "below_market_pct": null,
       "is_hidden_gem": false
     },
@@ -3749,17 +3749,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 4695
         }
       ],
-      "previous_price": null,
+      "previous_price": 4695,
       "below_market_pct": null,
       "is_hidden_gem": false
     },
@@ -3803,17 +3803,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 4749
         }
       ],
-      "previous_price": null,
+      "previous_price": 4749,
       "below_market_pct": 0.0,
       "is_hidden_gem": false
     },
@@ -3857,17 +3857,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 5300
         }
       ],
-      "previous_price": null,
+      "previous_price": 5300,
       "below_market_pct": null,
       "is_hidden_gem": false
     },
@@ -3911,17 +3911,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 5450
         }
       ],
-      "previous_price": null,
+      "previous_price": 5450,
       "below_market_pct": null,
       "is_hidden_gem": false
     },
@@ -3965,17 +3965,17 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 6495
         }
       ],
-      "previous_price": null,
+      "previous_price": 6495,
       "below_market_pct": null,
       "is_hidden_gem": false
     },
@@ -4019,22 +4019,55 @@
         "quiet_street": 3.01,
         "rent_control": 0
       },
-      "date_last_seen": "2026-05-01T21:03:05Z",
+      "date_last_seen": "2026-05-01T21:04:19Z",
       "date_first_seen": "2026-05-01T21:03:05Z",
-      "times_seen": 1,
-      "is_new_since_last_refresh": true,
+      "times_seen": 2,
+      "is_new_since_last_refresh": false,
       "price_history": [
         {
           "date": "2026-05-01T21:03:05Z",
           "price": 5795
         }
       ],
-      "previous_price": null,
+      "previous_price": 5795,
       "below_market_pct": null,
       "is_hidden_gem": false
     }
   ],
   "refresh_log": [
+    {
+      "timestamp": "2026-05-01T21:04:19Z",
+      "duration_seconds": 0.0,
+      "sources": {
+        "craigslist": {
+          "pulled": 18,
+          "errors": 0
+        },
+        "zillow": {
+          "pulled": 7,
+          "errors": 0
+        },
+        "apartments": {
+          "pulled": 12,
+          "errors": 0
+        },
+        "padmapper": {
+          "pulled": 0,
+          "errors": 0
+        }
+      },
+      "totals": {
+        "new": 0,
+        "updated": 33,
+        "newly_inactive": 0,
+        "active_total": 15,
+        "excluded_total": 21,
+        "inactive_total": 34
+      },
+      "errors": [],
+      "enriched_detail": 4,
+      "enriched_llm": 0
+    },
     {
       "timestamp": "2026-05-01T21:03:05Z",
       "duration_seconds": 9.2,
